@@ -19,17 +19,18 @@ function Navbar() {
     <footer className="navbar">
         <nav className="navbarNav">
             <ul className="navbarListItems">
+                {/* If the path being passed in pathMatchRoute matches the path being passed into navigate, it will return a bold fill when the respective icon is clicked to represent a selected state, and return a light grey otherwise to represent an unselected state */}
                 <li className="navbarListItem" onClick={()=> navigate('/')}>
-                    <ExploreIcon fill= '#2c2c2c' width='36px' height ='36px'/>
-                    <p>Explore</p>
+                    <ExploreIcon fill={pathMatchRoute('/') ? '#2c2c2c' : '#8f8f8f'} width='36px' height ='36px'/>
+                    <p className = {pathMatchRoute('/') ? 'navbarListemItemNameActive' : 'navbarListItemName'}>Explore</p>
                 </li>
                 <li className="navbarListItem" onClick={()=> navigate('/offers')}>
-                    <OfferIcon fill= '#2c2c2c' width='36px' height ='36px'/>
-                    <p>Offer</p>
+                    <OfferIcon fill={pathMatchRoute('/offers') ? '#2c2c2c' : '#8f8f8f'} width='36px' height ='36px'/>
+                    <p className= {pathMatchRoute('/offers') ? 'navbarListemItemNameActive' : 'navbarListItemName'}>Offer</p>
                 </li>
                 <li className="navbarListItem" onClick={()=> navigate('/profile')}>
-                    <PersonOutlineIcon fill= '#2c2c2c' width='36px' height ='36px'/>
-                    <p>Profile</p>
+                    <PersonOutlineIcon fill= {pathMatchRoute('/profile') ? '#2c2c2c' : '#8f8f8f'} width='36px' height ='36px'/>
+                    <p className= {pathMatchRoute('/profile') ? 'navbarListemItemNameActive' : 'navbarListItemName'}>Profile</p>
                 </li>
             </ul>
         </nav>
