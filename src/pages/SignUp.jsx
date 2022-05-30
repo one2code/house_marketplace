@@ -1,5 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	updateProfile,
+} from "firebase/auth";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase.config";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 
@@ -7,21 +14,55 @@ import visibilityIcon from "../assets/svg/visibilityIcon.svg";
 function SignUp() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
-        name:'',
+		name: "",
 		email: "",
 		password: "",
 	});
 	const { name, email, password } = formData;
 
-    const navigate = useNavigate()
+	const navigate = useNavigate();
 
-    // Passes in an event and takes the previous state of the form and replaces it with the value being entered in the form. e.target.id accepts any of the properties listed in the formData useState object
+	// Passes in an event and takes the previous state of the form and replaces it with the value being entered in the form. e.target.id accepts any of the properties listed in the formData useState object
 	const onChangeHandler = (e) => {
-        setFormData((prevState)=> ({
-            ...prevState,
-            [e.target.id]: e.target.value
-        }))
-    };
+		setFormData((prevState) => ({
+			...prevState,
+			[e.target.id]: e.target.value,
+		}));
+	};
+
+	const onSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			// Returns the authentication instance from getAuth()
+			const auth = getAuth();
+			// userCredential registers the user with the returned promise function and its passed in values
+			const userCredential = await createUserWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			const user = userCredential.user;
+
+			//    Updates the database with the displayname
+			updateProfile(auth.currentUser, {
+				displayName: name,
+			});
+
+			//    Copys the formData object and deletes the password before being submitted to the database
+			// severTimestamp adds a timestamp to the formDataCopy upon submission
+			const formDataCopy = { ...formData };
+			delete formDataCopy.password;
+			formDataCopy.timestamp = serverTimestamp();
+
+			//    Updates our user and adds it to the 'users' collection
+			await setDoc(doc(db, "users", user.uid), formDataCopy);
+
+			//    Redirects to the homepage
+			navigate("/");
+		} catch (error) {
+            console.log(error)
+        }
+	};
 	return (
 		<>
 			<div className="pageContainer">
@@ -30,8 +71,8 @@ function SignUp() {
 				</header>
 				<main>
 					{/* Sign up page that requests a name, email and password */}
-					<form>
-                    <input
+					<form onSubmit={onSubmit}>
+						<input
 							type="name"
 							className="nameInput"
 							placeholder="Name"
@@ -75,8 +116,10 @@ function SignUp() {
 							</button>
 						</div>
 					</form>
-                    {/* Google 0Auth Component will go here */}
-                    <Link to='/sign-in' className='registerLink'>Sign in Instead</Link>
+					{/* Google 0Auth Component will go here */}
+					<Link to="/sign-in" className="registerLink">
+						Sign in Instead
+					</Link>
 				</main>
 			</div>
 		</>
