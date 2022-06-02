@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
@@ -10,6 +10,7 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
 import visibilityIcon from "../assets/svg/visibilityIcon.svg";
+import OAuth from "../components/OAuth";
 
 // Function that manages the state and creates an input form for sign-in
 function SignUp() {
@@ -61,8 +62,9 @@ function SignUp() {
 			//    Redirects to the homepage
 			navigate("/");
 		} catch (error) {
-            toast.error(error)
-        }
+			toast.error('Unable to complete registration' + error.message);
+			
+		}
 	};
 	return (
 		<>
@@ -70,58 +72,59 @@ function SignUp() {
 				<header>
 					<p className="pageHeader">Welcome Back!</p>
 				</header>
-				<main>
-					{/* Sign up page that requests a name, email and password */}
-					<form onSubmit={onSubmit}>
-						<input
-							type="name"
-							className="nameInput"
-							placeholder="Name"
-							id="name"
-							value={name}
-							onChange={onChangeHandler}
-						/>
-						<input
-							type="email"
-							className="emailInput"
-							placeholder="Email"
-							id="email"
-							value={email}
-							onChange={onChangeHandler}
-						/>
 
-						<div className="passwordInputDiv">
-							<input
-								type={showPassword ? "text" : "password"}
-								className="passwordInput"
-								placeholder="Password"
-								id="password"
-								value={password}
-								onChange={onChangeHandler}
-							/>
-							<img
-								src={visibilityIcon}
-								alt="an eye that when clicked makes the password input visible"
-								className="showPassword"
-								onClick={() => setShowPassword((prevState) => !prevState)}
-							/>
-						</div>
-						{/* Redirects to the forgot password page when clicked */}
-						<Link to="/forgot-password" className="forgotPasswordLink">
-							Forgot Password
-						</Link>
-						<div className="signUpBar">
-							<p className="signUpText">Sign Up</p>
-							<button className="signUpButton">
-								<ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
-							</button>
-						</div>
-					</form>
-					{/* Google 0Auth Component will go here */}
-					<Link to="/sign-in" className="registerLink">
-						Sign in Instead
+				{/* Sign up page that requests a name, email and password */}
+				<form onSubmit={onSubmit}>
+					<input
+						type="name"
+						className="nameInput"
+						placeholder="Name"
+						id="name"
+						value={name}
+						onChange={onChangeHandler}
+					/>
+					<input
+						type="email"
+						className="emailInput"
+						placeholder="Email"
+						id="email"
+						value={email}
+						onChange={onChangeHandler}
+					/>
+
+					<div className="passwordInputDiv">
+						<input
+							type={showPassword ? "text" : "password"}
+							className="passwordInput"
+							placeholder="Password"
+							id="password"
+							value={password}
+							onChange={onChangeHandler}
+						/>
+						<img
+							src={visibilityIcon}
+							alt="an eye that when clicked makes the password input visible"
+							className="showPassword"
+							onClick={() => setShowPassword((prevState) => !prevState)}
+						/>
+					</div>
+					{/* Redirects to the forgot password page when clicked */}
+					<Link to="/forgot-password" className="forgotPasswordLink">
+						Forgot Password
 					</Link>
-				</main>
+					<div className="signUpBar">
+						<p className="signUpText">Sign Up</p>
+						<button className="signUpButton">
+							<ArrowRightIcon fill="#ffffff" width="34px" height="34px" />
+						</button>
+					</div>
+				</form>
+				
+				<OAuth />
+				
+				<Link to="/sign-in" className="registerLink">
+					Sign In Instead
+				</Link>
 			</div>
 		</>
 	);

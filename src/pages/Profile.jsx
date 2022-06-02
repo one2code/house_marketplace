@@ -42,6 +42,7 @@ function Profile() {
 			toast.success('Profile update successful')
 		} catch (error) {
 			toast.error("Could not update profile details");
+			
 		}
 	};
 
@@ -81,7 +82,7 @@ function Profile() {
 						<input
 							type="text"
 							id="name"
-							className={changeDetails ? "profileName" : "profileNameActive"}
+							className={changeDetails ? "profileNameActive" : "profileName"}
 							disabled={!changeDetails}
 							value={name}
 							onChange={onChange}
@@ -89,7 +90,7 @@ function Profile() {
 						<input
 							type="text"
 							id="email"
-							className={changeDetails ? "profileEmail" : "profileEmailActive"}
+							className={changeDetails ? "profileEmailActive" : "profileEmail"}
 							disabled={!changeDetails}
 							value={email}
 							onChange={onChange}

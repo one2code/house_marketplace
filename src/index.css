@@ -12,6 +12,7 @@ body {
   background-color: #f2f4f8;
   margin: 0;
   box-sizing: border-box;
+  min-height: 140vh
 }
 
 a {
