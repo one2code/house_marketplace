@@ -39,6 +39,7 @@ function Profile() {
 				name,
 				email
 			});
+			toast.success('Profile update successful')
 		} catch (error) {
 			toast.error("Could not update profile details");
 		}
