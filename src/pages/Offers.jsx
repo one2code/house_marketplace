@@ -1,8 +1,8 @@
 function Offers() {
-  return (
-    <>
-    <h1>Offers</h1>
-    </>
-  )
+	return (
+		<>
+			<h1>Offers</h1>
+		</>
+	);
 }
-export default Offers
+export default Offers;

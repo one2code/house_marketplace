@@ -11,7 +11,6 @@ function OAuth() {
 
 	const onGoogleClick = async () => {
 		try {
-			
 			const auth = getAuth();
 			const provider = new GoogleAuthProvider();
 			const result = await signInWithPopup(auth, provider);
@@ -26,7 +25,7 @@ function OAuth() {
 				await setDoc(doc(db, "users", user.uid), {
 					name: user.displayName,
 					email: user.email,
-					timestamp: serverTimestamp()
+					timestamp: serverTimestamp(),
 				});
 			}
 			navigate("/");

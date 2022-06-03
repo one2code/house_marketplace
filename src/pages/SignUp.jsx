@@ -62,8 +62,7 @@ function SignUp() {
 			//    Redirects to the homepage
 			navigate("/");
 		} catch (error) {
-			toast.error('Unable to complete registration' + error.message);
-			
+			toast.error("Unable to complete registration" + error.message);
 		}
 	};
 	return (
@@ -119,9 +118,9 @@ function SignUp() {
 						</button>
 					</div>
 				</form>
-				
+
 				<OAuth />
-				
+
 				<Link to="/sign-in" className="registerLink">
 					Sign In Instead
 				</Link>
